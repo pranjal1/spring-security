@@ -44,14 +44,17 @@ public class SecurityConfig {
                         .anyRequest().authenticated()) //this means authenticate all the requests
                 .httpBasic(Customizer.withDefaults()); //when a client makes an unauthenticated request, the server will challenge the client to provide a username and password for authentication
 
-//        http.sessionManagement(sessionManagement ->
-//                sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
-//
-//        http.authenticationProvider(customAuthenticationProvider()).
-//                addFilterBefore(authFilter, UsernamePasswordAuthenticationFilter.class);
+
+        http.sessionManagement(sessionManagement ->
+                sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
+
+        http.authenticationProvider(customAuthenticationProvider()).
+                addFilterBefore(authFilter, UsernamePasswordAuthenticationFilter.class);
+
 
         return http.build();
     }
+
 
 //    @Bean
 //    public UserDetailsService userDetailsService(){

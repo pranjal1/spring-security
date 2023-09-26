@@ -25,8 +25,8 @@ public class EmployeeController {
     @PreAuthorize("hasRole('USER')")
     @GetMapping("/employees")
     public ResponseEntity<List<EmployeeDTO>> getAllEmployees(){
-//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-//
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
 //        if (authentication != null && authentication.isAuthenticated()) {
 //            System.out.println("User roles:");
 //

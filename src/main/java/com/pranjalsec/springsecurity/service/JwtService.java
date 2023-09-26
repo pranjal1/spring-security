@@ -64,12 +64,11 @@ public class JwtService {
 
     public Boolean validateToken(String token, UserDetails userDetails) {
         final String username = extractUsername(token);
-        // I think we can not extract password from token
+        // We can not extract password from token because it was not used in its creation
         return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
     }
 
     private Key getSignKey() {
-        System.out.println("The value of secret is  " + SECRET);
         byte[] keyBytes= Decoders.BASE64.decode(SECRET);
         return Keys.hmacShaKeyFor(keyBytes);
     }

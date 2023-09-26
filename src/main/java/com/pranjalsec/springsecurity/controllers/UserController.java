@@ -44,14 +44,13 @@ public class UserController {
 
     @PostMapping("/authenticate")
     public String authenticateAndGetToken(@RequestBody AuthRequest authRequest){
-        //ensure that the user is authenticated, I don't know why you can't just use preauthorize here
+        System.out.println(System.getenv("DO_PASSWORD"));
+        System.out.println(System.getenv("JAVA_JWT_SECRET"));
         //it seems preauthorize is used for not just authentication but also checking if the user has permission for accessing this method
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authRequest.getUserName(), authRequest.getPassword()));
-        System.out.println("Authentication -> ");
-        System.out.println(authentication);
+
         if (authentication.isAuthenticated()){
             String token = jwtService.createToken(authRequest);
-            System.out.println(token);
             return token;
         }
         throw new UsernameNotFoundException("Can not find the user!");
