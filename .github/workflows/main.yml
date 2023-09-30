@@ -27,6 +27,6 @@ jobs:
 
     - name: Build Docker image
       run: |
-        docker build -t your-dockerhub-username/your-image-name:latest .
+        docker build -t ${{ secrets.DOCKER_USERNAME }}/spring-security:${{ github.sha }} .
         docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
-        docker push ${{ secrets.DOCKERHUB_USERNAME }}/full-stack:${{ github.sha }}
+        docker push ${{ secrets.DOCKER_USERNAME }}/full-stack:${{ github.sha }}
