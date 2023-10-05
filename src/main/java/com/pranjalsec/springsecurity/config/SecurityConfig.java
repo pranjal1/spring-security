@@ -41,6 +41,7 @@ public class SecurityConfig {
         http.csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers("/authenticate").permitAll()
+                        .requestMatchers("/").permitAll()
                         .anyRequest().authenticated()) //this means authenticate all the requests
                 .httpBasic(Customizer.withDefaults()); //when a client makes an unauthenticated request, the server will challenge the client to provide a username and password for authentication
 

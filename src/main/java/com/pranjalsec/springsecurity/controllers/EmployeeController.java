@@ -4,6 +4,7 @@ import com.pranjalsec.springsecurity.dto.EmployeeDTO;
 import com.pranjalsec.springsecurity.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
@@ -50,6 +51,11 @@ public class EmployeeController {
             return new ResponseEntity<>(emp, HttpStatus.OK);
         }
         return new ResponseEntity<>("Error adding employee", HttpStatus.BAD_REQUEST);
+    }
+
+    @GetMapping("/")
+    public  ResponseEntity<String> healthCheck(){
+        return new ResponseEntity<>("Success", HttpStatus.OK);
     }
 
 }

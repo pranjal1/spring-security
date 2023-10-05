@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: emp-deployment
+  labels:
+    app: emp-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: emp-deployment
+  template:
+    metadata:
+      labels:
+        app: emp-deployment
+    spec:
+      containers:
+      - name: emp-deployment-img
+        image: pranjal750/full-stack:cd4cc237d890d96021c7ce5e17e20cb1d66cede3
+        ports:
+        - name: http 
+          containerPort: 8080
+        env:
+        - name: DO_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: spring-secret
+              key: do-password
+        - name: JAVA_JWT_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: spring-secret
+              key: jwt-token-key
+      imagePullSecrets:
+        - name: regcred
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: employee-service
+spec:
+  type: NodePort
+  selector:
+    app: emp-deployment
+  ports:
+    - name: http
+      port: 8080
+      targetPort: 8080
+      nodePort: 31000

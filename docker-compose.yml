@@ -1,7 +1,7 @@
 version: '3'
 services:
   spring-app:
-    image: spring-security:v1
+    image: pranjal750/full-stack:cd4cc237d890d96021c7ce5e17e20cb1d66cede3
     ports:
       - 8080:8080
     env_file:
