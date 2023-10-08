@@ -1,0 +1,17 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: employee-ingress
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: "server.chiyapatti.co"
+    http:
+        paths:
+        - pathType: Prefix
+          path: "/"
+          backend:
+            service:
+              name: employee-service
+              port:
+                number: 8080

@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: emp-deployment-img
-        image: pranjal750/full-stack:cd4cc237d890d96021c7ce5e17e20cb1d66cede3
+        image: pranjal750/full-stack:21201975b75e7d0c23c47e160020b62533bc5d97
         ports:
         - name: http 
           containerPort: 8080
@@ -43,7 +43,6 @@ spec:
   selector:
     app: emp-deployment
   ports:
-    - name: http
-      port: 8080
-      targetPort: 8080
-      nodePort: 31000
+  - name: http
+    port: 8080
+    targetPort: 8080
