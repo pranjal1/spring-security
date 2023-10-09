@@ -1,0 +1,28 @@
+step 1:
+Create secrets:
+kubectl create secret docker-registry regcred --docker-username=${{ secrets.DOCKER_USERNAME }} --docker-password=${{ secrets.DOCKER_PASSWORD }} --docker-email=${{ secrets.DOCKER_EMAIL }}
+kubectl create secret generic spring-secret --from-literal=jwt-token-key=${{ secrets.JWT_TOKEN }} --from-literal=do-password=${{ secrets.DO_DB_PW }}
+
+Step 2:
+Deploy the application and the attached service
+kubectl apply -f k8s/spring-depl.yaml # this will already be deployed in that cluster
+
+Step 3:
+Create Ingress (Load Balancer) - to expose the cluster with external ip
+kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.1.1/deploy/static/provider/do/deploy.yaml
+
+Step 4:
+Certificate
+kubectl apply -f https://github.com/jetstack/cert-manager/releases/download/v1.7.1/cert-manager.yaml # no update needed
+
+Step 5:
+Follow this link:
+https://www.digitalocean.com/community/tutorials/how-to-set-up-an-nginx-ingress-with-cert-manager-on-digitalocean-kubernetes
+
+kubectl create -f k8s/prod-issuer.yaml
+kubectl apply -f k8s/ingress-nginx-svc.yaml
+kubectl apply -f k8s/echo-ingress.yaml
+
+The Certificate issue will take some time, and so will for DNS to update the new ip. Be patient
+
+Once the deployment is done, we just need to update the image whenever new changes occur

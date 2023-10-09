@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: emp-deployment-img
-        image: pranjal750/full-stack:21201975b75e7d0c23c47e160020b62533bc5d97
+        image: pranjal750/full-stack:3459e7531c6ec0860ffe6747acefaf4e11c54c32 #placeholder
         ports:
         - name: http 
           containerPort: 8080

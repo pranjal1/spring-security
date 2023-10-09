@@ -55,7 +55,7 @@ public class EmployeeController {
 
     @GetMapping("/")
     public  ResponseEntity<String> healthCheck(){
-        return new ResponseEntity<>("Success", HttpStatus.OK);
+        return new ResponseEntity<>("Success! Welcome to Employee API!!!", HttpStatus.OK);
     }
 
 }

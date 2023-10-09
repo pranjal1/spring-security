@@ -31,17 +31,16 @@ jobs:
         docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_TOKEN }}
         docker push ${{ secrets.DOCKER_USERNAME }}/full-stack:${{ github.sha }}
 
-#    - name: Install doctl
-#      uses: digitalocean/action-doctl@v2
-#      with:
-#        token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
+   - name: Install doctl
+     uses: digitalocean/action-doctl@v2
+     with:
+       token: ${{ secrets.DO_ACCESS_TOKEN }}
 
-#    - name: Save DigitalOcean kubeconfig with short-lived credentials
-#      run: doctl kubernetes cluster kubeconfig save --expiry-seconds 600 k8s-1-20-2-do-0-blr1-1619022201280
+   - name: Save DigitalOcean kubeconfig with short-lived credentials
+     run: doctl kubernetes cluster kubeconfig save --expiry-seconds 600 k8s-1-28-2-do-0-nyc1-1696868573765
 
-#    # Deploy Angular & Spring Boot Docker image to the DigitalOcean kubernetes cluster
-#    - name: Deploy
-#      run: |-
-#        kubectl set image deployment/emp-deployment emp-deployment-img=${{ secrets.DOCKER_USERNAME }}/full-stack:${{ github.sha }}
-#        kubectl rollout status deployment/emp-deployment
-#        kubectl get services -o wide
+   - name: Deploy
+     run: |-
+       kubectl set image deployment/emp-deployment emp-deployment-img=${{ secrets.DOCKER_USERNAME }}/full-stack:${{ github.sha }}
+       kubectl rollout status deployment/emp-deployment
+       kubectl get services -o wide

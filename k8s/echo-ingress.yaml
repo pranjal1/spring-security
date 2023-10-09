@@ -9,7 +9,7 @@ spec:
   tls:
   - hosts:
     - "server.chiyapatti.co"
-    secretName: employee-tls
+    secretName: employee-latest-tls
   rules:
     - host: "server.chiyapatti.co"
       http:
