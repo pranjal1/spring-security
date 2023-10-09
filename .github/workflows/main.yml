@@ -10,37 +10,37 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-    - name: Set up JDK 17
-      uses: actions/setup-java@v3
-      with:
-        distribution: 'temurin'
-        java-version: 17
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: 17
         
-    - name: Make mvnw script executable
-      run: chmod +x mvnw
+      - name: Make mvnw script executable
+        run: chmod +x mvnw
 
-    - name: Build Spring Boot project
-      run: ./mvnw package -DskipTests
+      - name: Build Spring Boot project
+        run: ./mvnw package -DskipTests
 
-    - name: Build Docker image
-      run: |
-        docker build -t ${{ secrets.DOCKER_USERNAME }}/full-stack:${{ github.sha }} .
-        docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_TOKEN }}
-        docker push ${{ secrets.DOCKER_USERNAME }}/full-stack:${{ github.sha }}
+      - name: Build Docker image
+        run: |
+          docker build -t ${{ secrets.DOCKER_USERNAME }}/full-stack:${{ github.sha }} .
+          docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_TOKEN }}
+          docker push ${{ secrets.DOCKER_USERNAME }}/full-stack:${{ github.sha }}
 
-   - name: Install doctl
-     uses: digitalocean/action-doctl@v2
-     with:
-       token: ${{ secrets.DO_ACCESS_TOKEN }}
+      - name: Install doctl
+        uses: digitalocean/action-doctl@v2
+        with:
+          token: ${{ secrets.DO_ACCESS_TOKEN }}
 
-   - name: Save DigitalOcean kubeconfig with short-lived credentials
-     run: doctl kubernetes cluster kubeconfig save --expiry-seconds 600 k8s-1-28-2-do-0-nyc1-1696868573765
+      - name: Save DigitalOcean kubeconfig with short-lived credentials
+        run: doctl kubernetes cluster kubeconfig save --expiry-seconds 600 k8s-1-28-2-do-0-nyc1-1696868573765
 
-   - name: Deploy
-     run: |-
-       kubectl set image deployment/emp-deployment emp-deployment-img=${{ secrets.DOCKER_USERNAME }}/full-stack:${{ github.sha }}
-       kubectl rollout status deployment/emp-deployment
-       kubectl get services -o wide
+      - name: Deploy
+        run: |-
+          kubectl set image deployment/emp-deployment emp-deployment-img=${{ secrets.DOCKER_USERNAME }}/full-stack:${{ github.sha }}
+          kubectl rollout status deployment/emp-deployment
+          kubectl get services -o wide
